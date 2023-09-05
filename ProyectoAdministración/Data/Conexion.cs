@@ -9,5 +9,14 @@ namespace ProyectoAdministración.Data
     {
 
         public static string rutaConexion = "Data Source=DESKTOP-0JMKRE7;Initial Catalog=Prueba;Integrated Security=True";
+
+        public void Saludar() {
+          
+        }
     }
+
+
+
+   
+
 }

@@ -90,7 +90,11 @@ namespace ProyectoAdministración.Data
                                 segundoNombre = dr["segundoNombre"].ToString(),
                                 segundoApellido = dr["segundoApellido"].ToString(),
                                 idDepartamento = Convert.ToInt32(dr["idDepartamento"]),
-                                idCargo = Convert.ToInt32(dr["idCargo"])
+                                idCargo = Convert.ToInt32(dr["idCargo"]),
+                                departamento = dr["dep"].ToString(),
+                                cargo = dr["carg"].ToString(),
+
+
                             });
                         }
 
@@ -156,7 +160,7 @@ namespace ProyectoAdministración.Data
             List<User> oListaUsuario = new List<User>();
             using (SqlConnection oConexion = new SqlConnection(Conexion.rutaConexion))
             {
-                SqlCommand cmd = new SqlCommand("sp_listar_users", oConexion);
+                SqlCommand cmd = new SqlCommand("sp_listar_users_by_departamento_and_cargos", oConexion);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@id_departamento", departamento);
                 cmd.Parameters.AddWithValue("@id_cargo", cargo);

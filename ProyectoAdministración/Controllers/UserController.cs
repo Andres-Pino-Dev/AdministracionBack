@@ -9,9 +9,12 @@ using System.Web.Http;
 
 namespace ProyectoAdministración.Controllers
 {
+    [RoutePrefix("api/v1/usuarios")]
     public class UserController : ApiController
     {
         // GET api/<controller>
+
+        [Route("")]
         public List<User> Get()
         {
             return UsersStore.Listar();
@@ -19,32 +22,40 @@ namespace ProyectoAdministración.Controllers
 
 
 
-        // GET api/<controller>/5
-        public User Get(int id)
+
+        [HttpGet]
+        [Route("find/{id}")]
+        public List<User> Get(int id)
         {
-            return UsersStore.Obtener(id);
+            return UsersStore.ListarByDepartamentos(id);
         }
 
 
-        
-        public List<User> GetByDepartamentoAndCargo(int idDepartamento,int idCArgo)
+        [HttpGet]
+        [Route("relacion/{idDep}/{idCargo}")]
+        public List<User> GetDepAndCArgo(int idDep,  int idCargo)
         {
-            return UsersStore.ListarByDepartamentoAndCargo(idDepartamento,idCArgo);
+            return UsersStore.ListarByDepartamentoAndCargo(idDep, idCargo);
         }
 
-        // POST api/<controller>
+
+
+        [HttpPost]
+        [Route("save")]
         public bool Post([FromBody] User oUsuario)
         {
             return UsersStore.Registrar(oUsuario);
         }
 
-        // PUT api/<controller>/5
+        [HttpPut]
+        [Route("update")]
         public bool Put([FromBody] User oUsuario)
         {
             return UsersStore.Modificar(oUsuario);
         }
 
-        // DELETE api/<controller>/5
+        [HttpDelete]
+        [Route("delete/{id}")]
         public bool Delete(int id)
         {
             return UsersStore.Eliminar(id);

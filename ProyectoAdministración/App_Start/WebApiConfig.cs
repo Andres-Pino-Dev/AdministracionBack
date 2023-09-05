@@ -23,7 +23,8 @@ namespace ProyectoAdministración
             );
 
         
-
+            /**
+            
             config.Routes.MapHttpRoute(
                name: "CargoApi",
                routeTemplate: "api/{controller}/{id}",
@@ -35,6 +36,8 @@ namespace ProyectoAdministración
             routeTemplate: "api/{controller}/{id}",
             defaults: new { controller = "Departamento", id = RouteParameter.Optional }
         );
+
+            **/
         }
     }
 }

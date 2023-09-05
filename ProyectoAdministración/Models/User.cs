@@ -7,7 +7,6 @@ namespace ProyectoAdministración.Models
 {
     public class User
     {
-
         public int id { get; set; }
         public string usuario { get; set; }
         public string primerNombre { get; set; }
@@ -15,5 +14,8 @@ namespace ProyectoAdministración.Models
         public string segundoApellido { get; set; }
         public int idDepartamento { get; set; }
         public int idCargo { get; set; }
+
+        public string departamento { get; set; }
+        public string cargo { get; set; }
     }
 }
