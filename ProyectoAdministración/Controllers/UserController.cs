@@ -1,6 +1,7 @@
 ﻿using ProyectoAdministración.Data;
 using ProyectoAdministración.Models;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -12,12 +13,18 @@ namespace ProyectoAdministración.Controllers
     [RoutePrefix("api/v1/usuarios")]
     public class UserController : ApiController
     {
-        // GET api/<controller>
+       
 
         [Route("")]
-        public List<User> Get()
+        public IHttpActionResult Get()
         {
-            return UsersStore.Listar();
+            try {
+
+                return Ok(UsersStore.Listar());
+            } catch (Exception ex) {
+                return NotFound();
+            }
+           
         }
 
 
@@ -25,40 +32,112 @@ namespace ProyectoAdministración.Controllers
 
         [HttpGet]
         [Route("find/{id}")]
-        public List<User> Get(int id)
+        public IHttpActionResult Get(int id)
         {
-            return UsersStore.ListarByDepartamentos(id);
+            var usuarios = UsersStore.ListarByDepartamentos(id);
+            try { 
+            
+                if (usuarios ==null || usuarios.Count==0) {
+                    return NotFound();
+                } else {
+                    return Ok(usuarios);
+                }
+
+            } catch (Exception ex) {
+
+                return InternalServerError();
+
+            }
+
         }
 
 
         [HttpGet]
         [Route("relacion/{idDep}/{idCargo}")]
-        public List<User> GetDepAndCArgo(int idDep,  int idCargo)
-        {
-            return UsersStore.ListarByDepartamentoAndCargo(idDep, idCargo);
+        public IHttpActionResult GetDepAndCArgo(int idDep,  int idCargo)
+        {   
+            var usuarios= UsersStore.ListarByDepartamentoAndCargo(idDep, idCargo);
+
+
+            try {
+                if (usuarios == null || usuarios.Count == 0)
+                {
+                    return NotFound();
+                }
+                else {
+
+                    return Ok(usuarios);
+                }
+            
+            }
+            catch (Exception ex) {
+
+                return InternalServerError();
+            }
+            
         }
 
 
 
         [HttpPost]
         [Route("save")]
-        public bool Post([FromBody] User oUsuario)
-        {
-            return UsersStore.Registrar(oUsuario);
+        public IHttpActionResult Post([FromBody] User oUsuario)
+        {  
+            
+            try {
+                if (UsersStore.Registrar(oUsuario))
+                {
+                    return Ok(oUsuario);
+                }
+                else {
+                    return BadRequest("No se pudo guardar el archivo");
+                }
+            
+            } catch (Exception ex) { }
+            
+            return InternalServerError();
         }
 
         [HttpPut]
         [Route("update")]
-        public bool Put([FromBody] User oUsuario)
+        public IHttpActionResult Put([FromBody] User oUsuario)
         {
-            return UsersStore.Modificar(oUsuario);
+            try
+            {
+                if (UsersStore.Registrar(oUsuario))
+                {
+                    return Ok(oUsuario);
+                }
+                else
+                {
+                    return BadRequest("No se pudo guardar el archivo");
+                }
+
+            }
+            catch (Exception ex) { }
+
+            return InternalServerError();
         }
 
         [HttpDelete]
         [Route("delete/{id}")]
-        public bool Delete(int id)
+        public IHttpActionResult Delete(int id)
         {
-            return UsersStore.Eliminar(id);
+            try
+            {
+                if (UsersStore.Eliminar(id))
+                {
+                    return Ok();
+                }
+                else
+                {
+                    return BadRequest("No se pudo guardar el archivo");
+                }
+
+            }
+            catch (Exception ex) { }
+
+            return InternalServerError();
         }
     }
 }
